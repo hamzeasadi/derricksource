@@ -45,13 +45,13 @@ def all_iframes(srcpath: str, trgpath: str):
 
 def main():
     print(cfg.paths['root'])
-    srcpath = cfg.paths['visiontrainiframes']
-    trgpath = cfg.paths['visiontrain']
-    all_iframes(srcpath=srcpath, trgpath=trgpath)
+    # srcpath = cfg.paths['visiontrainiframes']
+    # trgpath = cfg.paths['visiontrain']
+    # all_iframes(srcpath=srcpath, trgpath=trgpath)
 
-    srcpath = cfg.paths['visiontestiframes']
-    trgpath = cfg.paths['visiontest']
-    all_iframes(srcpath=srcpath, trgpath=trgpath)
+    # srcpath = cfg.paths['visiontestiframes']
+    # trgpath = cfg.paths['visiontest']
+    # all_iframes(srcpath=srcpath, trgpath=trgpath)
 
 
     srcpath = cfg.paths['liebherrtrainiframes']
