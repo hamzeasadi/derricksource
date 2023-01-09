@@ -2,15 +2,16 @@ import os
 import conf as cfg
 from torch.utils.data import DataLoader, random_split
 from torchvision.datasets import ImageFolder
-
+from torchvision import transforms
 
 batch_size = 128
 
-liebherrtrain = ImageFolder(root=cfg.paths['liebherrtrain'])
-liebherrtest = ImageFolder(root=cfg.paths['liebherrtest'])
+trf = transforms.Compose([transforms.Grayscale(), transforms.ToTensor(), transforms.Normalize(mean=[126/255], std=[200/255])])
+liebherrtrain = ImageFolder(root=cfg.paths['liebherrtrain'], transform=trf)
+liebherrtest = ImageFolder(root=cfg.paths['liebherrtest'], transform=trf)
 
-visiontrain = ImageFolder(root=cfg.paths['visiontrain'])
-visiontest = ImageFolder(root=cfg.paths['visiontest'])
+visiontrain = ImageFolder(root=cfg.paths['visiontrain'], transform=trf)
+visiontest = ImageFolder(root=cfg.paths['visiontest'], transform=trf)
 
 def create_loader(dataset, batch_size, train_percent=0.85):
     l = len(dataset)
