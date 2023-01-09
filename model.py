@@ -124,7 +124,7 @@ class ConstConv(ModelBase):
         noisecoord = self.add_pos(res=noise)
         x = self.fx(noisecoord)
         
-        return x 
+        return x, noise
 
 
 
