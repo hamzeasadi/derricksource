@@ -4,10 +4,11 @@ from torch import optim as optim
 from torch.utils.data import DataLoader
 import numpy as np
 from matplotlib import pyplot as plt
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 from itertools import combinations
 import conf as cfg
 import os
+
 
 
 dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -84,7 +85,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
             yhat = torch.argmax(out, dim=1)
             Y_true = torch.cat((Y_true, Y))
             Y_pred = torch.cat((Y_pred, yhat))
-            break
+            # break
 
 
     ytrue = Y_true.cpu().detach().numpy()
@@ -92,10 +93,15 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     print(Y_pred.shape, Y_true.shape)
     acc = accuracy_score(ytrue, ypred)
     print(f"acc is {acc}")
+    
+    cnfmtx = confusion_matrix(ytrue, ypred)
+    plt.imshow(cnfmtx)
+    plt.savefig(os.path.join(cfg.paths['model'], 'confusionl.png'))
+
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
-    fig, axs = plt.subplots(2, 4)
+    fig, axs = plt.subplots(2, 4, figsize=(4, 16))
     for i in range(2):
         axs[i, 0].imshow(real[i], cmap='gray')
         axs[i, 0].axis('off')
@@ -106,7 +112,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     plt.subplots_adjust(wspace=0, hspace=0)
     
     filepath = os.path.join(cfg.paths['model'], f'liebherr.png')
-    plt.savefig(filepath)
+    plt.savefig(filepath, bbox_inches='tight')
 
 
 def main():
