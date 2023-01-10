@@ -100,7 +100,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
         axs[i, 0].imshow(real[i])
         axs[i, 0].axis('off')
         for j in range(1, 4):
-            axs[i,j].imshow(noise[i, j])
+            axs[i,j].imshow(noise[i, j-1])
             axs[i, j].axis('off')
 
     plt.subplots_adjust(wspace=0, hspace=0)
