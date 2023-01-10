@@ -101,11 +101,11 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
-    fig, axs = plt.subplots(2, 4, figsize=(16, 6))
+    fig, axs = plt.subplots(2, 5, figsize=(16, 6))
     for i in range(2):
         axs[i, 0].imshow(real[i], cmap='gray')
         axs[i, 0].axis('off')
-        for j in range(1, 4):
+        for j in range(1, 5):
             axs[i,j].imshow(noise[i, j-1], cmap='gray')
             axs[i, j].axis('off')
 

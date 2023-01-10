@@ -32,7 +32,7 @@ class KeepTrack():
 
 def savearray(data: list, fname:str):
     path = os.path.join(cfg.paths['model'], fname)
-    with open(path, 'w') as f:
+    with open(path, 'a') as f:
         for pair in data:
             f.write(pair+'\n')
 
