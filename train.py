@@ -65,9 +65,8 @@ def main():
         state = keeptrack.load_ckp(fname=model_name)
         Net.load_state_dict(state['model'], strict=False)
         print(f"min error is {state['minerror']} which happen at epoch {state['epoch']}")
-        engine.test_step(model=Net, data=test_loader, criterion=criteria)
-        # final_result(model=Net, criterion=criteria, num_cls=9)
-
+        # engine.test_step(model=Net, data=test_loader, criterion=criteria)
+        engine.local_test_step(model=Net, data=test_loader, criterion=criteria)
 
 
 if __name__ == '__main__':

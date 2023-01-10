@@ -53,7 +53,7 @@ def test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
         for i, (X, Y) in enumerate(data):
             X = X.to(dev)
             Y = Y.to(dev)
-            out, noise = model(X)
+            out, noise   = model(X)
             yhat = torch.argmax(out, dim=1)
             Y_true = torch.cat((Y_true, Y))
             Y_pred = torch.cat((Y_pred, yhat))
@@ -62,6 +62,42 @@ def test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
 
     acc = accuracy_score(Y_pred.cpu().detach().numpy(), Y_true.cpu().detach().numpy())
     print(f"acc is {acc}")
+
+
+def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
+    epoch_error = 0
+    l = len(data)
+    model.eval()
+    model.to(dev)
+    Y_true = torch.tensor([1], device=dev)
+    Y_pred = torch.tensor([1], device=dev)
+    Noise, Real = 0, 0
+    with torch.no_grad():
+        for i, (X, Y) in enumerate(data):
+            X = X.to(dev)
+            Y = Y.to(dev)
+            Real = X
+            out, noise   = model(X)
+            Noise = noise
+            yhat = torch.argmax(out, dim=1)
+            Y_true = torch.cat((Y_true, Y))
+            Y_pred = torch.cat((Y_pred, yhat))
+            break
+
+
+    ytrue = Y_true.cpu().detach().numpy()
+    ypred = Y_pred.cpu().detach().numpy()
+    print(Y_pred.shape, Y_true.shape)
+    acc = accuracy_score(ytrue, ypred)
+    print(f"acc is {acc}")
+    noise = Noise[0:2].detach().cpu()
+    real = Real[0:2].squeeze().detach().cpu()
+    print(real.shape, noise.shape)
+    fig, axs = plt.subplots(nrow=2, ncols=4, figsize=[8, 12])
+    # for i in range(2):
+    #     axs[i, 0].imshow(real[i])
+    #     for j in range(1, 4):
+    #         axs[i,j].imshow(noise[])
 
 
 def main():
