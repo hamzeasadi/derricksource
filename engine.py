@@ -6,6 +6,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.metrics import accuracy_score
 from itertools import combinations
+import conf as cfg
+import os
 
 
 dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -94,10 +96,17 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
     fig, axs = plt.subplots(2, 4)
-    # for i in range(2):
-    #     axs[i, 0].imshow(real[i])
-    #     for j in range(1, 4):
-    #         axs[i,j].imshow(noise[])
+    for i in range(2):
+        axs[i, 0].imshow(real[i])
+        axs[i, 0].axis('off')
+        for j in range(1, 4):
+            axs[i,j].imshow(noise[i, j])
+            axs[i, j].axis('off')
+
+    plt.subplots_adjust(wspace=0, hspace=0)
+    
+    filepath = os.path.join(cfg.paths['model'], f'liebherr.png')
+    plt.savefig(filepath)
 
 
 def main():
