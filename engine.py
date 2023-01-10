@@ -93,7 +93,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
-    fig, axs = plt.subplots(nrow=2, ncols=4, figsize=[8, 12])
+    fig, axs = plt.subplots(2, 4)
     # for i in range(2):
     #     axs[i, 0].imshow(real[i])
     #     for j in range(1, 4):
