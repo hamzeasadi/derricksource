@@ -93,7 +93,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     print(Y_pred.shape, Y_true.shape)
     acc = accuracy_score(ytrue, ypred)
     print(f"acc is {acc}")
-    
+
     cnfmtx = confusion_matrix(ytrue, ypred)
     plt.imshow(cnfmtx)
     plt.savefig(os.path.join(cfg.paths['model'], 'confusionl.png'))
@@ -101,7 +101,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
-    fig, axs = plt.subplots(2, 4, figsize=(4, 16))
+    fig, axs = plt.subplots(2, 4, figsize=(16, 4))
     for i in range(2):
         axs[i, 0].imshow(real[i], cmap='gray')
         axs[i, 0].axis('off')
