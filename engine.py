@@ -122,7 +122,7 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     cnfmtx = confusion_matrix(ytrue, ypred)
     cnfmtxpath = os.path.join(cfg.paths['model'], 'liebherrctfmtx')
     cls = [i for i in range(6)]
-    cmtx(cm=cnfmtx, title='liebherr', file=cnfmtxpath)
+    cmtx(cm=cnfmtx, title='liebherr', file=cnfmtxpath, classes=cls)
 
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
