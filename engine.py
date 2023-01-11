@@ -13,6 +13,31 @@ import os
 
 dev = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+
+
+def cmtx(cm, classes, title, normalize=False, file='confusion_matrix', cmap='gray_r', linecolor='k'):
+    
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        cm_title = 'Confusion matrix, with normalization'
+    else:
+        cm_title = title
+
+    fmt = '.3f' if normalize else 'd'
+    sns.heatmap(cm, fmt=fmt, annot=True, square=True,
+                xticklabels=classes, yticklabels=classes,
+                cmap=cmap, vmin=0, vmax=0,
+                linewidths=0.5, linecolor=linecolor,
+                cbar=False)
+    sns.despine(left=False, right=False, top=False, bottom=False)
+
+    plt.title(cm_title)
+    plt.ylabel('True class')
+    plt.xlabel('Predicted class')
+    plt.tight_layout()
+    plt.savefig(f'{file}.png')
+
+
 def train_step(model: nn.Module, data: DataLoader, criterion: nn.Module, optimizer: optim):
     epoch_error = 0
     l = len(data)
@@ -85,7 +110,6 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
             yhat = torch.argmax(out, dim=1)
             Y_true = torch.cat((Y_true, Y))
             Y_pred = torch.cat((Y_pred, yhat))
-            # break
 
 
     ytrue = Y_true.cpu().detach().numpy()
@@ -95,21 +119,22 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
     print(f"acc is {acc}")
 
     cnfmtx = confusion_matrix(ytrue, ypred)
-    plt.imshow(cnfmtx)
-    plt.savefig(os.path.join(cfg.paths['model'], 'confusionl.png'))
+    cnfmtxpath = os.path.join(cfg.paths['model'], 'liebherrctfmtx')
+    cls = [i for i in range(6)]
+    cmtx(cm=cnfmtx, title='liebherr', file=cntmtxpath)
 
     noise = Noise[0:2].detach().cpu()
     real = Real[0:2].squeeze().detach().cpu()
     print(real.shape, noise.shape)
-    fig, axs = plt.subplots(2, 5, figsize=(16, 6))
+    fig, axs = plt.subplots(2, 4, figsize=(20, 6))
     for i in range(2):
         axs[i, 0].imshow(real[i], cmap='gray')
         axs[i, 0].axis('off')
-        for j in range(1, 5):
+        for j in range(1, 4):
             axs[i,j].imshow(noise[i, j-1], cmap='gray')
             axs[i, j].axis('off')
 
-    plt.subplots_adjust(wspace=0, hspace=0)
+    plt.subplots_adjust(wspace=0.1, hspace=0)
     
     filepath = os.path.join(cfg.paths['model'], f'liebherr.png')
     plt.savefig(filepath, bbox_inches='tight')
