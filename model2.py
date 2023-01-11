@@ -76,10 +76,10 @@ class ConstConv(ModelBase):
     def __init__(self, scale=1, ks=5, outch=1, name='constlayer', created_time=None, num_cls=10):
         super().__init__(name=name, created_time=created_time)
         self.num_cls = num_cls
-        self.cont1 = Constlayer(name='constlayer1', created_time=None, scale=1.0, outch=1, ks=5)
-        self.cont2 = Constlayer(name='constlayer2', created_time=None, scale=10, outch=1, ks=5)
-        self.cont3 = Constlayer(name='constlayer3', created_time=None, scale=100, outch=1, ks=5)
-        self.cont4 = Constlayer(name='constlayer4', created_time=None, scale=1000, outch=1, ks=5)
+        self.cont1 = Constlayer(name='constlayer1', created_time=None, scale=10, outch=1, ks=5)
+        self.cont2 = Constlayer(name='constlayer2', created_time=None, scale=100, outch=1, ks=5)
+        self.cont3 = Constlayer(name='constlayer3', created_time=None, scale=1000, outch=1, ks=5)
+        self.cont4 = Constlayer(name='constlayer4', created_time=None, scale=10000, outch=1, ks=5)
         self.coord = self.coords(h=480, w=800)
         self.fx = self.feat()
 
