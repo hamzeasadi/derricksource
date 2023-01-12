@@ -135,9 +135,9 @@ def local_test_step(model: nn.Module, data: DataLoader, criterion: nn.Module):
             axs[i,j].imshow(noise[i, j-1], cmap='gray')
             axs[i, j].axis('off')
 
-    plt.subplots_adjust(wspace=0.1, hspace=0)
+    plt.subplots_adjust(wspace=0.1, hspace=0.1)
     
-    filepath = os.path.join(cfg.paths['model'], f'liebherr.png')
+    filepath = os.path.join(cfg.paths['model'], f'vision.png')
     plt.savefig(filepath, bbox_inches='tight')
 
 
